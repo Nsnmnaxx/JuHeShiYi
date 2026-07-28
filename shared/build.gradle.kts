@@ -79,7 +79,5 @@ android {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "com.lyihub.archiveassistant.resources"
-    generateResClass = always
 }
 
