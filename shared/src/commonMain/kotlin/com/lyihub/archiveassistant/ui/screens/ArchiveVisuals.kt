@@ -1,6 +1,5 @@
 package com.lyihub.archiveassistant.ui.screens
 
-import androidx.annotation.DrawableRes
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
@@ -9,16 +8,17 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.lyihub.archiveassistant.R
+import com.lyihub.archiveassistant.generated.resources.Res
 import com.lyihub.archiveassistant.domain.SixMinistry
+import org.jetbrains.compose.resources.DrawableResource
 
 internal data class FolderVisual(
   val description: String,
-  @param:DrawableRes val imageRes: Int,
+  val imageRes: DrawableResource,
 )
 
 internal data class ArchiveTileVisual(
-  @param:DrawableRes val backgroundRes: Int,
+  val backgroundRes: DrawableResource,
   val borderColor: Color,
 )
 
@@ -75,31 +75,31 @@ private class FlatCutCornerShape(private val notchDp: Int) : Shape {
 
 internal val ZhongshuTileVisual =
   ArchiveTileVisual(
-    backgroundRes = R.drawable.home_zhongshu_tile,
+    backgroundRes = Res.drawable.home_zhongshu_tile,
     borderColor = Color(0xFF9C4A37),
   )
 
 internal val MenxiaTileVisual =
   ArchiveTileVisual(
-    backgroundRes = R.drawable.home_menxia_tile,
+    backgroundRes = Res.drawable.home_menxia_tile,
     borderColor = Color(0xFFC6A06B),
   )
 
 internal val MemorialTileVisual =
   ArchiveTileVisual(
-    backgroundRes = R.drawable.home_memorial_tile,
+    backgroundRes = Res.drawable.home_memorial_tile,
     borderColor = Color(0xFFAFD9BD),
   )
 
 internal val ClipboardTileVisual =
   ArchiveTileVisual(
-    backgroundRes = R.drawable.home_clipboard_tile,
+    backgroundRes = Res.drawable.home_clipboard_tile,
     borderColor = Color(0xFF78ABCC),
   )
 
 internal val SearchTileVisual =
   ArchiveTileVisual(
-    backgroundRes = R.drawable.home_search_new_tile,
+    backgroundRes = Res.drawable.home_search_new_tile,
     borderColor = Color(0xFF3E3E46),
   )
 
@@ -107,27 +107,27 @@ internal val FolderVisuals =
   listOf(
     FolderVisual(
       description = "近期收藏与重点资料归档",
-      imageRes = R.drawable.tsieina_department_pattern_9617,
+      imageRes = Res.drawable.tsieina_department_pattern_9617,
     ),
     FolderVisual(
       description = "按主题收束同类资料",
-      imageRes = R.drawable.tsieina_department_pattern_10412,
+      imageRes = Res.drawable.tsieina_department_pattern_10412,
     ),
     FolderVisual(
       description = "保留可复查的摘录与来源",
-      imageRes = R.drawable.tsieina_department_pattern_10059,
+      imageRes = Res.drawable.tsieina_department_pattern_10059,
     ),
     FolderVisual(
       description = "聚合技术、工具与实现线索",
-      imageRes = R.drawable.tsieina_department_pattern_9611,
+      imageRes = Res.drawable.tsieina_department_pattern_9611,
     ),
     FolderVisual(
       description = "沉淀判断、风险与待复核内容",
-      imageRes = R.drawable.tsieina_department_pattern_9945,
+      imageRes = Res.drawable.tsieina_department_pattern_9945,
     ),
     FolderVisual(
       description = "整理产品、设计与制作材料",
-      imageRes = R.drawable.tsieina_department_pattern_9610,
+      imageRes = Res.drawable.tsieina_department_pattern_9610,
     ),
   )
 
@@ -165,29 +165,29 @@ internal fun folderTitleForTopicId(topicId: String): String {
 
 internal val MemorialCoverResources =
   listOf(
-    R.drawable.memorial_cover_pattern,
-    R.drawable.memorial_cover_02,
-    R.drawable.memorial_cover_03,
-    R.drawable.memorial_cover_04,
-    R.drawable.memorial_cover_05,
-    R.drawable.memorial_cover_06,
-    R.drawable.memorial_cover_07,
-    R.drawable.memorial_cover_08,
-    R.drawable.memorial_cover_09,
-    R.drawable.memorial_cover_10,
-    R.drawable.memorial_cover_11,
-    R.drawable.memorial_cover_12,
-    R.drawable.memorial_cover_13,
-    R.drawable.memorial_cover_14,
-    R.drawable.memorial_cover_15,
-    R.drawable.memorial_cover_16,
-    R.drawable.memorial_cover_17,
-    R.drawable.memorial_cover_18,
-    R.drawable.memorial_cover_19,
-    R.drawable.memorial_cover_20,
-    R.drawable.memorial_cover_21,
-    R.drawable.memorial_cover_22,
-    R.drawable.memorial_cover_23,
+    Res.drawable.memorial_cover_pattern,
+    Res.drawable.memorial_cover_02,
+    Res.drawable.memorial_cover_03,
+    Res.drawable.memorial_cover_04,
+    Res.drawable.memorial_cover_05,
+    Res.drawable.memorial_cover_06,
+    Res.drawable.memorial_cover_07,
+    Res.drawable.memorial_cover_08,
+    Res.drawable.memorial_cover_09,
+    Res.drawable.memorial_cover_10,
+    Res.drawable.memorial_cover_11,
+    Res.drawable.memorial_cover_12,
+    Res.drawable.memorial_cover_13,
+    Res.drawable.memorial_cover_14,
+    Res.drawable.memorial_cover_15,
+    Res.drawable.memorial_cover_16,
+    Res.drawable.memorial_cover_17,
+    Res.drawable.memorial_cover_18,
+    Res.drawable.memorial_cover_19,
+    Res.drawable.memorial_cover_20,
+    Res.drawable.memorial_cover_21,
+    Res.drawable.memorial_cover_22,
+    Res.drawable.memorial_cover_23,
   )
 
 internal fun folderVisual(index: Int): FolderVisual = FolderVisuals[index % FolderVisuals.size]

@@ -10,8 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import com.lyihub.archiveassistant.R
+import com.lyihub.archiveassistant.generated.resources.Res
 import com.lyihub.archiveassistant.ui.theme.ImperialIvory
 import com.lyihub.archiveassistant.ui.theme.ImperialParchment
 import com.lyihub.archiveassistant.ui.theme.ImperialUmber
@@ -25,7 +24,7 @@ fun XuanPaperBackground(
 ) {
   Box(modifier = modifier.fillMaxSize().background(ImperialIvory)) {
     Image(
-      painter = painterResource(id = R.drawable.memorial_xuan_paper),
+      painter = org.jetbrains.compose.resources.painterResource(Res.drawable.memorial_xuan_paper),
       contentDescription = null,
       modifier = Modifier.matchParentSize(),
       contentScale = ContentScale.Crop,

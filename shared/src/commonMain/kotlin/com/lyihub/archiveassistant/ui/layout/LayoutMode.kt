@@ -2,7 +2,8 @@ package com.lyihub.archiveassistant.ui.layout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -35,14 +36,18 @@ object LayoutModeDefaults {
 
 @Composable
 fun rememberWindowLayoutInfo(hingeBounds: List<HingeBounds> = emptyList()): WindowLayoutInfo {
-  val configuration = LocalConfiguration.current
-  val widthDp = configuration.screenWidthDp.dp
+  val windowInfo = LocalWindowInfo.current
+  val density = LocalDensity.current
+  val widthDp = with(density) { windowInfo.containerSize.width.toDp() }
+
+  val compactMaxWidthValue = LayoutModeDefaults.COMPACT_MAX_WIDTH.value
+  val expandedMinWidthValue = LayoutModeDefaults.EXPANDED_MIN_WIDTH.value
 
   val mode =
     when {
       hingeBounds.isNotEmpty() -> LayoutMode.FOLDABLE
-      widthDp < LayoutModeDefaults.COMPACT_MAX_WIDTH -> LayoutMode.COMPACT
-      widthDp >= LayoutModeDefaults.EXPANDED_MIN_WIDTH -> LayoutMode.EXPANDED
+      widthDp.value < compactMaxWidthValue -> LayoutMode.COMPACT
+      widthDp.value >= expandedMinWidthValue -> LayoutMode.EXPANDED
       else -> LayoutMode.EXPANDED
     }
 
