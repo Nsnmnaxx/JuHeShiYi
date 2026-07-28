@@ -32,6 +32,7 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(compose.materialIconsExtended)
             // KMP libs
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
@@ -79,5 +80,6 @@ android {
 
 compose.resources {
     publicResClass = true
+    generateResClass = always
 }
 
