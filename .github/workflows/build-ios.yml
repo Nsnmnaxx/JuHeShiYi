@@ -3,7 +3,7 @@ name: Build iOS
 on:
   push:
     branches: [main, master]
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   build-ios:
@@ -19,19 +19,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: 缓存 Gradle
-        uses: actions/cache@v4
+      - name: 安装 Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', '**/gradle-wrapper.properties') }}
-          restore-keys: gradle-${{ runner.os }}-
+          gradle-version: '8.13'
 
       - name: 构建 Shared Framework (iOS)
-        run: |
-          chmod +x gradlew
-          ./gradlew :shared:linkReleaseFrameworkIosArm64 --no-daemon
+        run: gradle :shared:linkReleaseFrameworkIosArm64 --no-daemon
 
       - name: 安装 XcodeGen
         run: brew install xcodegen
