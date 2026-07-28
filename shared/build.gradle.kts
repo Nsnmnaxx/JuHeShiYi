@@ -77,6 +77,3 @@ android {
     }
 }
 
-compose.resources {
-    packageOfResClass.set("com.lyihub.archiveassistant.resources")
-}
