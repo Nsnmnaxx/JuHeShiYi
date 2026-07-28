@@ -5,6 +5,8 @@ package com.lyihub.archiveassistant
  * androidMain 和 iosMain 各自提供 actual 实现。
  */
 
+enum class PlatformType { ANDROID, IOS }
+
 expect fun currentPlatform(): PlatformType
 
 expect fun appFilesDirPath(): String
