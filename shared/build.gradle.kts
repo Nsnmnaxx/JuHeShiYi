@@ -76,3 +76,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
+compose.resources {
+    packageOfResClass.set("com.lyihub.archiveassistant.resources")
+}
