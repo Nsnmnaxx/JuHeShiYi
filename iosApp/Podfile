@@ -1,0 +1,7 @@
+target 'iosApp' do
+  use_frameworks!
+  platform :ios, '17.0'
+
+  # The shared KMP framework will be linked via the Xcode build phase.
+  # No additional pods needed — Compose Multiplatform handles all UI dependencies.
+end
