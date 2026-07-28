@@ -1,5 +1,7 @@
 package com.lyihub.archiveassistant.ui.screens
 
+import androidx.compose.ui.util.lerp
+
 internal data class MemorialStackPose(
   val offsetX: Float,
   val offsetY: Float,

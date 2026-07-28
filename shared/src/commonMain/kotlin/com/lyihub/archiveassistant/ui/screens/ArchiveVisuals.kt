@@ -107,27 +107,27 @@ internal val FolderVisuals =
   listOf(
     FolderVisual(
       description = "近期收藏与重点资料归档",
-      imageRes = Res.drawable.tsieina_department_pattern_9617,
+      imageRes = Res.drawable.tsieina_department_bing,
     ),
     FolderVisual(
       description = "按主题收束同类资料",
-      imageRes = Res.drawable.tsieina_department_pattern_10412,
+      imageRes = Res.drawable.tsieina_department_gong,
     ),
     FolderVisual(
       description = "保留可复查的摘录与来源",
-      imageRes = Res.drawable.tsieina_department_pattern_10059,
+      imageRes = Res.drawable.tsieina_department_hu,
     ),
     FolderVisual(
       description = "聚合技术、工具与实现线索",
-      imageRes = Res.drawable.tsieina_department_pattern_9611,
+      imageRes = Res.drawable.tsieina_department_li,
     ),
     FolderVisual(
       description = "沉淀判断、风险与待复核内容",
-      imageRes = Res.drawable.tsieina_department_pattern_9945,
+      imageRes = Res.drawable.tsieina_department_li2,
     ),
     FolderVisual(
       description = "整理产品、设计与制作材料",
-      imageRes = Res.drawable.tsieina_department_pattern_9610,
+      imageRes = Res.drawable.tsieina_department_xing,
     ),
   )
 

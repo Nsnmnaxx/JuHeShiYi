@@ -1,6 +1,5 @@
 package com.lyihub.archiveassistant
 
-import platform.Foundation.NSFileManager
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSUserDomainMask
@@ -13,7 +12,5 @@ actual fun appFilesDirPath(): String {
         NSUserDomainMask,
         true
     )
-    return (paths.firstOrNull() as? String) ?: NSFileManager.defaultManager
-        .temporaryDirectory
-        .path ?: "/tmp"
+    return (paths.firstOrNull() as? String) ?: NSTemporaryDirectory() ?: "/tmp"
 }

@@ -6,11 +6,12 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.lyihub.archiveassistant.R
+import com.lyihub.archiveassistant.generated.resources.Res
+import org.jetbrains.compose.resources.Font
 
-val ImperialTitleFont = FontFamily(Font(R.font.san_ji_xing_kai_jian_ti_cu, FontWeight.Normal))
+val ImperialTitleFont = FontFamily(Font(Res.font.san_ji_xing_kai_jian_ti_cu, FontWeight.Normal))
 
-val ImperialDisplayFont = FontFamily(Font(R.font.dinglie_song_typeface, FontWeight.Normal))
+val ImperialDisplayFont = FontFamily(Font(Res.font.dinglie_song_typeface, FontWeight.Normal))
 
 val ImperialStampTitleFont = ImperialTitleFont
 
