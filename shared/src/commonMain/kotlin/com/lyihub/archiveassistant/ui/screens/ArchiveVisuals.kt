@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.lyihub.archiveassistant.generated.resources.Res
+import com.lyihub.archiveassistant.shared.generated.resources.Res
 import com.lyihub.archiveassistant.domain.SixMinistry
 import org.jetbrains.compose.resources.DrawableResource
 

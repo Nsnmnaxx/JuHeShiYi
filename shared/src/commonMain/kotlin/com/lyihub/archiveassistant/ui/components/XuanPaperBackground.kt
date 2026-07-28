@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
-import com.lyihub.archiveassistant.generated.resources.Res
+import com.lyihub.archiveassistant.shared.generated.resources.Res
 import com.lyihub.archiveassistant.ui.theme.ImperialIvory
 import com.lyihub.archiveassistant.ui.theme.ImperialParchment
 import com.lyihub.archiveassistant.ui.theme.ImperialUmber

@@ -3,6 +3,7 @@ package com.lyihub.archiveassistant
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSUserDomainMask
+import platform.Foundation.NSTemporaryDirectory
 
 actual fun currentPlatform(): PlatformType = PlatformType.IOS
 

@@ -62,10 +62,6 @@ kotlin {
     }
 }
 
-compose.resources {
-    packageOfResClass = "com.lyihub.archiveassistant.generated.resources"
-}
-
 android {
     namespace = "com.lyihub.archiveassistant.shared"
     compileSdk = 36
