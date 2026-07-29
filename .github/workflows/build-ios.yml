@@ -24,16 +24,18 @@ jobs:
         with:
           gradle-version: '8.13'
 
+      - name: Generate Compose Resources
+        run: gradle :shared:generateComposeResClass :shared:generateResourceAccessorsForCommonMain --no-daemon
+
       - name: Debug - Show generated Res.kt
+        if: always()
         run: |
           echo "=== find shared/build -name Res.kt ==="
-          find shared/build -name "Res.kt" -exec echo "--- {} ---" \; -exec cat {} \; 2>/dev/null || echo "NOT FOUND in shared/build"
-          echo "=== find . -path '*/build/generated/*' -name 'Res.kt' ==="
-          find . -path "*/build/generated/*" -name "Res.kt" -exec echo "--- {} ---" \; -exec cat {} \; 2>/dev/null || echo "NOT FOUND in generated"
-          echo "=== Listing shared/build directory tree (top 3 levels) ==="
-          find shared/build -maxdepth 3 -type d 2>/dev/null | head -50 || echo "shared/build empty or missing"
+          find shared/build -name "Res.kt" -exec echo "--- {} ---" \; -exec cat {} \; 2>/dev/null || echo "NOT FOUND"
+          echo "=== shared/build directory tree (top 3) ==="
+          find shared/build -maxdepth 3 -type d 2>/dev/null | head -50
 
-      - name: 构建 Shared Framework (iOS)
+      - name: Build iOS Framework
         run: gradle :shared:linkReleaseFrameworkIosArm64 --no-daemon --no-build-cache
 
       - name: 安装 XcodeGen
