@@ -25,7 +25,9 @@ kotlin {
     }
 
     sourceSets {
-        commonMain.dependencies {
+        commonMain {
+            resources.srcDirs("src/commonMain/composeResources")
+            dependencies {
             // Compose Multiplatform
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -42,6 +44,7 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.multiplatform.settings)
             implementation(libs.multiplatform.settings.coroutines)
+            }
         }
 
         androidMain.dependencies {
