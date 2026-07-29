@@ -16,10 +16,11 @@ val ImperialTitleFont: FontFamily
 val ImperialDisplayFont: FontFamily
     @Composable get() = FontFamily(Font(Res.font.dinglie_song_typeface, FontWeight.Normal))
 
-val ImperialStampTitleFont = ImperialTitleFont
+val ImperialStampTitleFont: FontFamily
+    @Composable get() = ImperialTitleFont
 
-val Typography =
-  Typography(
+val Typography: Typography
+    @Composable get() = Typography(
     displayLarge =
       TextStyle(
         fontFamily = ImperialTitleFont,
