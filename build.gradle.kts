@@ -8,7 +8,9 @@ plugins {
     alias(libs.plugins.spotless)
 }
 
-group = "com.lyihub.archiveassistant"
+allprojects {
+    group = "com.lyihub.archiveassistant"
+}
 
 spotless {
     kotlin {
