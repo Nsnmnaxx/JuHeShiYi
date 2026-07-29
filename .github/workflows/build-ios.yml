@@ -62,7 +62,7 @@ jobs:
       - name: 打包 IPA
         run: |
           mkdir -p build/Payload
-          cp -R ${{ runner.temp }}/iosApp.xcarchive/Products/Applications/iosApp.app build/Payload/
+          cp -R ${{ runner.temp }}/iosApp.xcarchive/Products/Applications/聚合拾遗.app build/Payload/
           cd build
           zip -r iosApp.ipa Payload/
           cd ..
