@@ -30,10 +30,10 @@ jobs:
       - name: Debug - Show generated Res.kt
         if: always()
         run: |
-          echo "=== find shared/build -name Res.kt ==="
-          find shared/build -name "Res.kt" -exec echo "--- {} ---" \; -exec cat {} \; 2>/dev/null || echo "NOT FOUND"
-          echo "=== shared/build directory tree (top 3) ==="
-          find shared/build -maxdepth 3 -type d 2>/dev/null | head -50
+          echo "=== All Kotlin files under shared/build/generated/compose ==="
+          find shared/build/generated/compose -name "*.kt" -exec echo "--- {} ---" \; -exec cat {} \; 2>/dev/null
+          echo "=== All directories under shared/build/generated/compose (depth 5) ==="
+          find shared/build/generated/compose -maxdepth 5 -type d 2>/dev/null
 
       - name: Build iOS Framework
         run: gradle :shared:linkReleaseFrameworkIosArm64 --no-daemon --no-build-cache
