@@ -26,8 +26,12 @@ jobs:
 
       - name: Debug - Show generated Res.kt
         run: |
-          echo "=== Searching for generated Res.kt ==="
-          find shared/build/generated/compose -name "Res.kt" -exec echo "--- {} ---" \; -exec cat {} \;
+          echo "=== find shared/build -name Res.kt ==="
+          find shared/build -name "Res.kt" -exec echo "--- {} ---" \; -exec cat {} \; 2>/dev/null || echo "NOT FOUND in shared/build"
+          echo "=== find . -path '*/build/generated/*' -name 'Res.kt' ==="
+          find . -path "*/build/generated/*" -name "Res.kt" -exec echo "--- {} ---" \; -exec cat {} \; 2>/dev/null || echo "NOT FOUND in generated"
+          echo "=== Listing shared/build directory tree (top 3 levels) ==="
+          find shared/build -maxdepth 3 -type d 2>/dev/null | head -50 || echo "shared/build empty or missing"
 
       - name: 构建 Shared Framework (iOS)
         run: gradle :shared:linkReleaseFrameworkIosArm64 --no-daemon --no-build-cache
