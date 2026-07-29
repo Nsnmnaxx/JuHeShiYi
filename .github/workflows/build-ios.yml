@@ -25,7 +25,7 @@ jobs:
           gradle-version: '8.13'
 
       - name: 构建 Shared Framework (iOS)
-        run: gradle :shared:linkReleaseFrameworkIosArm64 --no-daemon
+        run: gradle :shared:linkReleaseFrameworkIosArm64 --no-daemon --no-build-cache
 
       - name: 安装 XcodeGen
         run: brew install xcodegen
