@@ -24,6 +24,11 @@ jobs:
         with:
           gradle-version: '8.13'
 
+      - name: Debug - Show generated Res.kt
+        run: |
+          echo "=== Searching for generated Res.kt ==="
+          find shared/build/generated/compose -name "Res.kt" -exec echo "--- {} ---" \; -exec cat {} \;
+
       - name: 构建 Shared Framework (iOS)
         run: gradle :shared:linkReleaseFrameworkIosArm64 --no-daemon --no-build-cache
 
