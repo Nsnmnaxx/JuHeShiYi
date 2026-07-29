@@ -84,5 +84,9 @@ compose.resources {
     publicResClass = true
     generateResClass = always
     packageOfResClass = "com.lyihub.archiveassistant.shared.generated.resources"
+    customDirectory(
+        sourceSetName = "commonMain",
+        directoryProvider = provider { layout.projectDirectory.dir("src/commonMain/composeResources") }
+    )
 }
 
