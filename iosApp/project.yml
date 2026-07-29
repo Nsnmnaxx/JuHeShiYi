@@ -30,15 +30,6 @@ targets:
         OTHER_LINKER_FLAGS: "-framework Shared"
         ENABLE_USER_SCRIPT_SANDBOXING: "NO"
     dependencies: []
-    preBuildScripts:
-      - name: "Build Shared KMP Framework"
-        script: |
-          cd "$SRCROOT/.."
-          ./gradlew :shared:linkReleaseFrameworkIosArm64 --no-daemon
-        inputFiles: []
-        outputFiles:
-          - "$(SRCROOT)/../shared/build/bin/iosArm64/releaseFramework/Shared.framework/Shared"
-        basedOnDependencyAnalysis: false
 
 schemes:
   iosApp:
