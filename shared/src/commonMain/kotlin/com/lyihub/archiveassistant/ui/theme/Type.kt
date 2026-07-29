@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import JuHeShiYi.shared.generated.resources.Res
+import shared.generated.resources.Res
 import org.jetbrains.compose.resources.Font
 
 val ImperialTitleFont = FontFamily(Font(Res.font.san_ji_xing_kai_jian_ti_cu, FontWeight.Normal))
