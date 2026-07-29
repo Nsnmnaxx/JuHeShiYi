@@ -26,7 +26,6 @@ kotlin {
 
     sourceSets {
         commonMain {
-            resources.srcDirs("src/commonMain/composeResources")
             dependencies {
             // Compose Multiplatform
             implementation(compose.runtime)
