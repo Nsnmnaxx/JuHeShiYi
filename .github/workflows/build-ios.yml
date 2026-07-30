@@ -104,45 +104,48 @@ jobs:
           path: build/iosApp.ipa
           retention-days: 7
 
-      - name: 发布 OTA Release (手动触发)
-        if: github.event_name == 'workflow_dispatch'
-        id: ota
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ota-${{ github.run_number }}
-          name: 聚合拾遗 iOS - ota-${{ github.run_number }}
-          body: 设备 UDID: ${{ github.event.inputs.device_udid }}
-          files: build/iosApp.ipa
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 生成 manifest.plist
+      - name: 发布 OTA (手动触发)
         if: github.event_name == 'workflow_dispatch'
         run: |
           TAG="ota-${{ github.run_number }}"
           IPA_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/${TAG}/iosApp.ipa"
 
+          # 生成 manifest.plist
           echo '<?xml version="1.0" encoding="UTF-8"?>' > build/manifest.plist
           echo '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">' >> build/manifest.plist
           echo '<plist version="1.0"><dict><key>items</key><array><dict>' >> build/manifest.plist
           echo '<key>assets</key><array><dict>' >> build/manifest.plist
           echo '<key>kind</key><string>software-package</string>' >> build/manifest.plist
           echo "<key>url</key><string>${IPA_URL}</string>" >> build/manifest.plist
-          echo '</dict></array>' >> build/manifest.plist
-          echo '<key>metadata</key><dict>' >> build/manifest.plist
+          echo '</dict></array><key>metadata</key><dict>' >> build/manifest.plist
           echo '<key>bundle-identifier</key><string>com.lyihub.archiveassistant</string>' >> build/manifest.plist
           echo '<key>bundle-version</key><string>1.0</string>' >> build/manifest.plist
           echo '<key>kind</key><string>software</string>' >> build/manifest.plist
           echo '<key>title</key><string>聚合拾遗</string>' >> build/manifest.plist
           echo '</dict></dict></array></dict></plist>' >> build/manifest.plist
 
-          gh release upload "${TAG}" build/manifest.plist --clobber -R "${{ github.repository }}"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 创建 Release 并上传 IPA 和 manifest
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            "https://api.github.com/repos/${{ github.repository }}/releases" \
+            -d "{\"tag_name\":\"${TAG}\",\"name\":\"聚合拾遗 iOS - ${TAG}\",\"body\":\"设备 UDID: ${{ github.event.inputs.device_udid }}\"}" \
+            > release.json
 
-      - name: 输出安装链接 (手动触发)
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          TAG="ota-${{ github.run_number }}"
+          UPLOAD_URL=$(python3 -c "import json,sys; print(json.load(open('release.json'))['upload_url'].split('{')[0])")
+
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/octet-stream" \
+            "${UPLOAD_URL}?name=iosApp.ipa" \
+            --data-binary @build/iosApp.ipa
+
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/octet-stream" \
+            "${UPLOAD_URL}?name=manifest.plist" \
+            --data-binary @build/manifest.plist
+
           MANIFEST_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/${TAG}/manifest.plist"
           echo ""
           echo "============================================="
