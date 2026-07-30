@@ -4,14 +4,18 @@ platform :ios do
   lane :build do |options|
     device_udid = options[:device_udid] || ENV['DEVICE_UDID']
     apple_id   = options[:apple_id]   || ENV['APPLE_ID']
+    app_specific_password = ENV['FASTLANE_APP_SPECIFIC_PASSWORD'] || ''
 
-    unless device_udid && apple_id
-      UI.user_error!("DEVICE_UDID and APPLE_ID are required")
+    unless device_udid && apple_id && !app_specific_password.empty?
+      UI.user_error!("DEVICE_UDID, APPLE_ID, FASTLANE_APP_SPECIFIC_PASSWORD required")
     end
 
-    UI.message("Free Apple ID → Xcode automatic signing")
+    # 用 spaceship 登录获取免费账号的 Personal Team ID
+    require 'spaceship'
+    Spaceship::Portal.login(apple_id, app_specific_password)
+    team_id = Spaceship::Portal.client.teams.first['teamId']
+    UI.message("Personal Team ID: #{team_id}")
 
-    # 免费 Apple ID 先用 security 写入钥匙串，再走 xcodebuild 自动签名
     build_app(
       project: 'iosApp.xcodeproj',
       scheme: 'iosApp',
@@ -19,7 +23,7 @@ platform :ios do
       export_method: 'development',
       output_directory: '../build',
       output_name: 'iosApp.ipa',
-      xcargs: '-allowProvisioningUpdates',
+      xcargs: "-allowProvisioningUpdates DEVELOPMENT_TEAM=#{team_id}",
     )
   end
 end
