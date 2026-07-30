@@ -106,22 +106,24 @@ jobs:
 
       - name: 发布 OTA Release (手动触发)
         if: github.event_name == 'workflow_dispatch'
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -e
-          TAG="ota-$(date +%Y%m%d-%H%M%S)"
-          IPA_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/${TAG}/iosApp.ipa"
+        id: ota
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ota-${{ github.run_number }}
+          name: 聚合拾遗 iOS - ota-${{ github.run_number }}
+          body: 设备 UDID: ${{ github.event.inputs.device_udid }}
+          files: build/iosApp.ipa
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-          gh release create "${TAG}" build/iosApp.ipa \
-            --title "聚合拾遗 iOS - ${TAG}" \
-            --notes "设备 UDID: ${{ github.event.inputs.device_udid }}"
+      - name: 生成 manifest.plist
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          TAG="ota-${{ github.run_number }}"
+          IPA_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/${TAG}/iosApp.ipa"
 
           echo '<?xml version="1.0" encoding="UTF-8"?>' > build/manifest.plist
           echo '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">' >> build/manifest.plist
-          echo '<plist version="1.0">' >> build/manifest.plist
-          echo '<dict><key>items</key><array><dict>' >> build/manifest.plist
+          echo '<plist version="1.0"><dict><key>items</key><array><dict>' >> build/manifest.plist
           echo '<key>assets</key><array><dict>' >> build/manifest.plist
           echo '<key>kind</key><string>software-package</string>' >> build/manifest.plist
           echo "<key>url</key><string>${IPA_URL}</string>" >> build/manifest.plist
@@ -133,15 +135,19 @@ jobs:
           echo '<key>title</key><string>聚合拾遗</string>' >> build/manifest.plist
           echo '</dict></dict></array></dict></plist>' >> build/manifest.plist
 
-          gh release upload "${TAG}" build/manifest.plist
+          gh release upload "${TAG}" build/manifest.plist --clobber -R "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: 输出安装链接 (手动触发)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          TAG="ota-${{ github.run_number }}"
           MANIFEST_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/${TAG}/manifest.plist"
-          INSTALL_LINK="itms-services://?action=download-manifest&url=${MANIFEST_URL}"
-
           echo ""
           echo "============================================="
           echo "  iPhone Safari 打开以下链接即可安装："
-          echo "  ${INSTALL_LINK}"
+          echo "  itms-services://?action=download-manifest&url=${MANIFEST_URL}"
           echo "============================================="
 
       - name: 上传 Shared Framework 产物
