@@ -14,7 +14,7 @@ on:
         description: 'App 专用密码'
         required: true
         type: string
-        default: 'hszz-rfdx-yjbu-nyux'
+        default: 'dagk-axnk-rekg-dqtu'
       device_udid:
         description: 'iPhone UDID'
         required: true
