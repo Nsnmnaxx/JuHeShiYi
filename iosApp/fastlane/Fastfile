@@ -9,11 +9,9 @@ platform :ios do
       UI.user_error!("DEVICE_UDID and APPLE_ID are required")
     end
 
-    app_specific_password = ENV['FASTLANE_APP_SPECIFIC_PASSWORD'] || ''
-
     UI.message("Free Apple ID → Xcode automatic signing")
 
-    # 免费 Apple ID 只能用 Xcode 自动签名，不能走 cert/register_device/sigh API
+    # 免费 Apple ID 先用 security 写入钥匙串，再走 xcodebuild 自动签名
     build_app(
       project: 'iosApp.xcodeproj',
       scheme: 'iosApp',
@@ -21,7 +19,7 @@ platform :ios do
       export_method: 'development',
       output_directory: '../build',
       output_name: 'iosApp.ipa',
-      xcargs: "-allowProvisioningUpdates -authenticationAppleID #{apple_id} -authenticationPassword #{app_specific_password}",
+      xcargs: '-allowProvisioningUpdates',
     )
   end
 end
