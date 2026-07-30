@@ -9,33 +9,11 @@ platform :ios do
       UI.user_error!("DEVICE_UDID and APPLE_ID are required")
     end
 
-    # 注册设备到 Apple Developer
-    begin
-      register_device(
-        name: "GitHub CI Device",
-        udid: device_udid,
-        username: apple_id,
-      )
-    rescue => e
-      UI.important("Device may already be registered: #{e.message}")
-    end
+    app_specific_password = ENV['FASTLANE_APP_SPECIFIC_PASSWORD'] || ''
 
-    # 创建开发证书
-    cert(
-      development: true,
-      username: apple_id,
-    )
+    UI.message("Free Apple ID → Xcode automatic signing")
 
-    # 创建 Provisioning Profile（含设备 UDID）
-    sigh(
-      development: true,
-      username: apple_id,
-      app_identifier: 'com.lyihub.archiveassistant',
-      force: true,
-      skip_certificate_verification: true,
-    )
-
-    # 构建签名 IPA
+    # 免费 Apple ID 只能用 Xcode 自动签名，不能走 cert/register_device/sigh API
     build_app(
       project: 'iosApp.xcodeproj',
       scheme: 'iosApp',
@@ -43,6 +21,7 @@ platform :ios do
       export_method: 'development',
       output_directory: '../build',
       output_name: 'iosApp.ipa',
+      xcargs: "-allowProvisioningUpdates -authenticationAppleID #{apple_id} -authenticationPassword #{app_specific_password}",
     )
   end
 end

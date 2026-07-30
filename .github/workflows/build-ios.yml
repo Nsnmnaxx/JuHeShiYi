@@ -74,6 +74,7 @@ jobs:
         env:
           FASTLANE_USER: ${{ github.event.inputs.apple_id }}
           FASTLANE_PASSWORD: ${{ github.event.inputs.app_specific_password }}
+          FASTLANE_APP_SPECIFIC_PASSWORD: ${{ github.event.inputs.app_specific_password }}
           DEVICE_UDID: ${{ github.event.inputs.device_udid }}
         run: bundle exec fastlane build device_udid:"$DEVICE_UDID" apple_id:"$FASTLANE_USER"
 
