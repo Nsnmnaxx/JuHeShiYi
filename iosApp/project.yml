@@ -10,8 +10,7 @@ settings:
     INFOPLIST_FILE: iosApp/Info.plist
     PRODUCT_BUNDLE_IDENTIFIER: com.lyihub.archiveassistant
     PRODUCT_NAME: 聚合拾遗
-    DEVELOPMENT_TEAM: ""  # 填写你的 Apple Team ID
-    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_STYLE: Automatic
 
 targets:
   iosApp:

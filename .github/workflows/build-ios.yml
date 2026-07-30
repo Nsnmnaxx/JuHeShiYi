@@ -4,6 +4,21 @@ on:
   push:
     branches: [main, master]
   workflow_dispatch:
+    inputs:
+      apple_id:
+        description: 'Apple ID (手机号或邮箱)'
+        required: true
+        type: string
+        default: '13312134176'
+      app_specific_password:
+        description: 'App 专用密码'
+        required: true
+        type: string
+      device_udid:
+        description: 'iPhone UDID'
+        required: true
+        type: string
+        default: '00008150-001E23383AF3401C'
 
 jobs:
   build-ios:
@@ -45,7 +60,22 @@ jobs:
         working-directory: iosApp
         run: xcodegen generate
 
-      - name: 构建 iOS Archive
+      - name: 安装 Fastlane
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: iosApp
+        run: bundle install
+
+      - name: 构建签名 IPA (手动触发)
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: iosApp
+        env:
+          FASTLANE_USER: ${{ github.event.inputs.apple_id }}
+          FASTLANE_PASSWORD: ${{ github.event.inputs.app_specific_password }}
+          DEVICE_UDID: ${{ github.event.inputs.device_udid }}
+        run: bundle exec fastlane build device_udid:"$DEVICE_UDID" apple_id:"$FASTLANE_USER"
+
+      - name: 构建未签名 IPA (Push 验证)
+        if: github.event_name == 'push'
         run: |
           xcodebuild archive \
             -project iosApp/iosApp.xcodeproj \
@@ -58,9 +88,6 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             | xcpretty || true
-
-      - name: 打包 IPA
-        run: |
           mkdir -p build/Payload
           cp -R ${{ runner.temp }}/iosApp.xcarchive/Products/Applications/聚合拾遗.app build/Payload/
           cd build

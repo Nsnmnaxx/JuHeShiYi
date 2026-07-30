@@ -1,0 +1,48 @@
+default_platform(:ios)
+
+platform :ios do
+  lane :build do |options|
+    device_udid = options[:device_udid] || ENV['DEVICE_UDID']
+    apple_id   = options[:apple_id]   || ENV['APPLE_ID']
+
+    unless device_udid && apple_id
+      UI.user_error!("DEVICE_UDID and APPLE_ID are required")
+    end
+
+    # 注册设备到 Apple Developer
+    begin
+      register_device(
+        name: "GitHub CI Device",
+        udid: device_udid,
+        username: apple_id,
+      )
+    rescue => e
+      UI.important("Device may already be registered: #{e.message}")
+    end
+
+    # 创建开发证书
+    cert(
+      development: true,
+      username: apple_id,
+    )
+
+    # 创建 Provisioning Profile（含设备 UDID）
+    sigh(
+      development: true,
+      username: apple_id,
+      app_identifier: 'com.lyihub.archiveassistant',
+      force: true,
+      skip_certificate_verification: true,
+    )
+
+    # 构建签名 IPA
+    build_app(
+      project: 'iosApp.xcodeproj',
+      scheme: 'iosApp',
+      configuration: 'Release',
+      export_method: 'development',
+      output_directory: '../build',
+      output_name: 'iosApp.ipa',
+    )
+  end
+end
