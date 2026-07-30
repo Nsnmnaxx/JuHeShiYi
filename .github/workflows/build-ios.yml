@@ -106,52 +106,36 @@ jobs:
 
       - name: 发布 OTA Release (手动触发)
         if: github.event_name == 'workflow_dispatch'
+        shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -e
           TAG="ota-$(date +%Y%m%d-%H%M%S)"
-          gh release create "$TAG" build/iosApp.ipa --title "聚合拾遗 iOS - $TAG" --notes "设备 UDID: ${{ github.event.inputs.device_udid }}"
+          IPA_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/${TAG}/iosApp.ipa"
 
-          IPA_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/$TAG/iosApp.ipa"
+          gh release create "${TAG}" build/iosApp.ipa \
+            --title "聚合拾遗 iOS - ${TAG}" \
+            --notes "设备 UDID: ${{ github.event.inputs.device_udid }}"
 
-          cat > build/manifest.plist << 'PLISTEOF'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>items</key>
-            <array>
-              <dict>
-                <key>assets</key>
-                <array>
-                  <dict>
-                    <key>kind</key>
-                    <string>software-package</string>
-                    <key>url</key>
-                    <string>__IPA_URL__</string>
-                  </dict>
-                </array>
-                <key>metadata</key>
-                <dict>
-                  <key>bundle-identifier</key>
-                  <string>com.lyihub.archiveassistant</string>
-                  <key>bundle-version</key>
-                  <string>1.0</string>
-                  <key>kind</key>
-                  <string>software</string>
-                  <key>title</key>
-                  <string>聚合拾遗</string>
-                </dict>
-              </dict>
-            </array>
-          </dict>
-          </plist>
-          PLISTEOF
+          echo '<?xml version="1.0" encoding="UTF-8"?>' > build/manifest.plist
+          echo '<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">' >> build/manifest.plist
+          echo '<plist version="1.0">' >> build/manifest.plist
+          echo '<dict><key>items</key><array><dict>' >> build/manifest.plist
+          echo '<key>assets</key><array><dict>' >> build/manifest.plist
+          echo '<key>kind</key><string>software-package</string>' >> build/manifest.plist
+          echo "<key>url</key><string>${IPA_URL}</string>" >> build/manifest.plist
+          echo '</dict></array>' >> build/manifest.plist
+          echo '<key>metadata</key><dict>' >> build/manifest.plist
+          echo '<key>bundle-identifier</key><string>com.lyihub.archiveassistant</string>' >> build/manifest.plist
+          echo '<key>bundle-version</key><string>1.0</string>' >> build/manifest.plist
+          echo '<key>kind</key><string>software</string>' >> build/manifest.plist
+          echo '<key>title</key><string>聚合拾遗</string>' >> build/manifest.plist
+          echo '</dict></dict></array></dict></plist>' >> build/manifest.plist
 
-          sed -i '' "s|__IPA_URL__|${IPA_URL}|g" build/manifest.plist
-          gh release upload "$TAG" build/manifest.plist
+          gh release upload "${TAG}" build/manifest.plist
 
-          MANIFEST_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/$TAG/manifest.plist"
+          MANIFEST_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/${TAG}/manifest.plist"
           INSTALL_LINK="itms-services://?action=download-manifest&url=${MANIFEST_URL}"
 
           echo ""
