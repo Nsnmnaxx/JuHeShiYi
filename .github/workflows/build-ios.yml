@@ -23,6 +23,8 @@ on:
 jobs:
   build-ios:
     runs-on: macos-latest
+    permissions:
+      contents: write
 
     steps:
       - name: 检出代码
@@ -94,12 +96,69 @@ jobs:
           zip -r iosApp.ipa Payload/
           cd ..
 
-      - name: 上传 IPA 产物
+      - name: 上传 IPA 产物 (Push)
+        if: github.event_name == 'push'
         uses: actions/upload-artifact@v4
         with:
           name: iosApp-${{ github.sha }}
           path: build/iosApp.ipa
           retention-days: 7
+
+      - name: 发布 OTA Release (手动触发)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="ota-$(date +%Y%m%d-%H%M%S)"
+          gh release create "$TAG" build/iosApp.ipa --title "聚合拾遗 iOS - $TAG" --notes "设备 UDID: ${{ github.event.inputs.device_udid }}"
+
+          IPA_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/$TAG/iosApp.ipa"
+
+          cat > build/manifest.plist << 'PLISTEOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>items</key>
+            <array>
+              <dict>
+                <key>assets</key>
+                <array>
+                  <dict>
+                    <key>kind</key>
+                    <string>software-package</string>
+                    <key>url</key>
+                    <string>__IPA_URL__</string>
+                  </dict>
+                </array>
+                <key>metadata</key>
+                <dict>
+                  <key>bundle-identifier</key>
+                  <string>com.lyihub.archiveassistant</string>
+                  <key>bundle-version</key>
+                  <string>1.0</string>
+                  <key>kind</key>
+                  <string>software</string>
+                  <key>title</key>
+                  <string>聚合拾遗</string>
+                </dict>
+              </dict>
+            </array>
+          </dict>
+          </plist>
+          PLISTEOF
+
+          sed -i '' "s|__IPA_URL__|${IPA_URL}|g" build/manifest.plist
+          gh release upload "$TAG" build/manifest.plist
+
+          MANIFEST_URL="https://github.com/Nsnmnaxx/JuHeShiYi/releases/download/$TAG/manifest.plist"
+          INSTALL_LINK="itms-services://?action=download-manifest&url=${MANIFEST_URL}"
+
+          echo ""
+          echo "============================================="
+          echo "  iPhone Safari 打开以下链接即可安装："
+          echo "  ${INSTALL_LINK}"
+          echo "============================================="
 
       - name: 上传 Shared Framework 产物
         uses: actions/upload-artifact@v4
