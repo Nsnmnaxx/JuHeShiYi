@@ -62,7 +62,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lyihub.archiveassistant.R
-import com.lyihub.archiveassistant.shared.generated.resources.Res
+import com.lyihub.archiveassistant.shared.generated.resources.*
 import com.lyihub.archiveassistant.domain.KnowledgeItem
 import com.lyihub.archiveassistant.ui.components.XuanPaperBackground
 import com.lyihub.archiveassistant.ui.theme.ImperialBronze
