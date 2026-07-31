@@ -12,3 +12,9 @@
 
 # Keep multiplatform-settings
 -keep class com.russhwolf.settings.** { *; }
+
+# PDFBox - JP2 decoder not available on Android
+-dontwarn com.gemalto.jp2.**
+
+# Ktor - JVM management classes not available on Android
+-dontwarn java.lang.management.**
