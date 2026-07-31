@@ -105,19 +105,19 @@ private val BriefingSamples =
       title = "端侧模型突破摘要",
       body = "多篇材料指向端侧推理与系统级 AI 能力更新，适合优先判断是否进入今日重点。",
       departmentTitle = "大模型架构研究",
-      departmentImageRes = Res.drawable.tsieina_department_pattern_9617,
+      departmentImageRes = R.drawable.tsieina_department_pattern_9617,
     ),
     BriefingSample(
       title = "折叠屏交互线索",
       body = "新增一条适合视频展示的双屏协同链路，可用于解释朝堂视角与批阅流程的关系。",
       departmentTitle = "UX/UI 灵感板",
-      departmentImageRes = Res.drawable.tsieina_department_pattern_10412,
+      departmentImageRes = R.drawable.tsieina_department_pattern_10412,
     ),
     BriefingSample(
       title = "素材归档提醒",
       body = "国风纹样、封面图与瀑布流插图已形成一组可复用素材，需要决定归档主题。",
       departmentTitle = "知识管理方法",
-      departmentImageRes = Res.drawable.tsieina_department_pattern_9610,
+      departmentImageRes = R.drawable.tsieina_department_pattern_9610,
     ),
   )
 
