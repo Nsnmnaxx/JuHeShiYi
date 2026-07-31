@@ -53,6 +53,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,6 +62,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lyihub.archiveassistant.R
+import com.lyihub.archiveassistant.shared.generated.resources.Res
 import com.lyihub.archiveassistant.domain.KnowledgeItem
 import com.lyihub.archiveassistant.ui.components.XuanPaperBackground
 import com.lyihub.archiveassistant.ui.theme.ImperialBronze
@@ -93,7 +96,7 @@ private data class BriefingSample(
   val title: String,
   val body: String,
   val departmentTitle: String,
-  @param:androidx.annotation.DrawableRes val departmentImageRes: Int,
+  @param:androidx.annotation.DrawableRes val departmentImageRes: DrawableResource,
 )
 
 private val BriefingSamples =
@@ -102,19 +105,19 @@ private val BriefingSamples =
       title = "端侧模型突破摘要",
       body = "多篇材料指向端侧推理与系统级 AI 能力更新，适合优先判断是否进入今日重点。",
       departmentTitle = "大模型架构研究",
-      departmentImageRes = R.drawable.tsieina_department_pattern_9617,
+      departmentImageRes = Res.drawable.tsieina_department_pattern_9617,
     ),
     BriefingSample(
       title = "折叠屏交互线索",
       body = "新增一条适合视频展示的双屏协同链路，可用于解释朝堂视角与批阅流程的关系。",
       departmentTitle = "UX/UI 灵感板",
-      departmentImageRes = R.drawable.tsieina_department_pattern_10412,
+      departmentImageRes = Res.drawable.tsieina_department_pattern_10412,
     ),
     BriefingSample(
       title = "素材归档提醒",
       body = "国风纹样、封面图与瀑布流插图已形成一组可复用素材，需要决定归档主题。",
       departmentTitle = "知识管理方法",
-      departmentImageRes = R.drawable.tsieina_department_pattern_9610,
+      departmentImageRes = Res.drawable.tsieina_department_pattern_9610,
     ),
   )
 
@@ -167,7 +170,7 @@ fun MemorialBriefingPane(
 
 @Composable
 private fun MemorialCoverWheel(
-  coverResources: List<Int>,
+  coverResources: List<DrawableResource>,
   briefingSamples: List<BriefingSample>,
   pendingCount: Int,
   onActiveIndexChanged: (Int) -> Unit,
@@ -347,7 +350,7 @@ private data class WheelItemPlacement(
   val index: Int,
   val drawOrder: Int,
   val degrees: Float,
-  val resId: Int,
+  val resId: DrawableResource,
   val focus: Float,
 )
 
@@ -432,7 +435,7 @@ private fun MemorialWheelInnerDisc(
 
 @Composable
 private fun MemorialWheelCover(
-  resId: Int,
+  resId: DrawableResource,
   degrees: Float,
   centerX: Dp,
   centerY: Dp,
@@ -498,7 +501,7 @@ private fun MemorialWheelCover(
             .background(ImperialParchment)
       ) {
         Image(
-          painter = painterResource(id = resId),
+          painter = painterResource(resId),
           contentDescription = null,
           modifier = Modifier.fillMaxSize(),
           contentScale = ContentScale.Crop,
@@ -674,7 +677,7 @@ private fun MemorialBriefCard(
     ) { activeSample ->
       Box(modifier = Modifier.fillMaxWidth().heightIn(min = 54.dp)) {
         Image(
-          painter = painterResource(id = activeSample.departmentImageRes),
+          painter = painterResource(activeSample.departmentImageRes),
           contentDescription = null,
           modifier = Modifier.align(Alignment.CenterEnd).offset(x = 12.dp).size(72.dp),
           contentScale = ContentScale.Fit,

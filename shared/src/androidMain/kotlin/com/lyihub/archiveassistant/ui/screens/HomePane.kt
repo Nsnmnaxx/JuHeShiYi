@@ -65,6 +65,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
+import org.jetbrains.compose.resources.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -1206,7 +1207,7 @@ private fun MinistryFoldCard(
             )
           }
           Image(
-            painter = painterResource(id = visual.imageRes),
+            painter = painterResource(visual.imageRes),
             contentDescription = null,
             modifier = Modifier.size(imageSize),
             contentScale = ContentScale.Fit,
@@ -1384,7 +1385,7 @@ private fun CutoutCell(
         .border(1.2.dp, tileVisual.borderColor.copy(alpha = 0.86f), ArchiveCutCornerShape)
   ) {
     Image(
-      painter = painterResource(id = tileVisual.backgroundRes),
+      painter = painterResource(tileVisual.backgroundRes),
       contentDescription = null,
       modifier =
         Modifier.matchParentSize().graphicsLayer(scaleX = if (mirrorBackground) -1f else 1f),

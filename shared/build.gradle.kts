@@ -67,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.lyihub.archiveassistant.shared"
+    namespace = "com.lyihub.archiveassistant"
     compileSdk = 36
 
     defaultConfig {

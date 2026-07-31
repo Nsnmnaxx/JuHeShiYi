@@ -4,14 +4,15 @@ import com.lyihub.archiveassistant.domain.KnowledgeItem
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.random.Random
+import org.jetbrains.compose.resources.DrawableResource
 
 internal object MemorialCoverSequence {
   fun wheelResources(
-    coverResources: List<Int>,
+    coverResources: List<DrawableResource>,
     itemCount: Int,
     duplicateGuard: Int,
     seed: Int,
-  ): List<Int> {
+  ): List<DrawableResource> {
     if (coverResources.isEmpty()) return emptyList()
     val uniqueResources = coverResources.distinct()
     val guard = min(duplicateGuard, (uniqueResources.size - 1).coerceAtLeast(0))
@@ -36,11 +37,11 @@ internal object MemorialCoverSequence {
   }
 
   private fun greedyCircularFallback(
-    resources: List<Int>,
+    resources: List<DrawableResource>,
     itemCount: Int,
     guard: Int,
-  ): List<Int> {
-    val sequence = mutableListOf<Int>()
+  ): List<DrawableResource> {
+    val sequence = mutableListOf<DrawableResource>()
     repeat(itemCount) { index ->
       val candidate =
         resources
@@ -85,7 +86,7 @@ internal object MemorialCoverSequence {
   }
 
   private fun canSwapWithoutNearDuplicate(
-    sequence: List<Int>,
+    sequence: List<DrawableResource>,
     firstIndex: Int,
     secondIndex: Int,
     guard: Int,
@@ -98,14 +99,14 @@ internal object MemorialCoverSequence {
       isCircularSequenceValidAt(mutable, secondIndex, guard)
   }
 
-  private fun isCircularSequenceValid(sequence: List<Int>, guard: Int): Boolean {
+  private fun isCircularSequenceValid(sequence: List<DrawableResource>, guard: Int): Boolean {
     if (sequence.isEmpty()) return true
     return sequence.indices.all { index ->
       isCircularSequenceValidAt(sequence, index, guard)
     }
   }
 
-  private fun isCircularSequenceValidAt(sequence: List<Int>, index: Int, guard: Int): Boolean {
+  private fun isCircularSequenceValidAt(sequence: List<DrawableResource>, index: Int, guard: Int): Boolean {
     if (sequence.isEmpty()) return true
     return (1..guard).all { distance ->
       sequence[index] != sequence[(index + distance) % sequence.size] &&
