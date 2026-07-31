@@ -24,20 +24,13 @@ jobs:
         with:
           gradle-version: '8.13'
 
-      - name: 生成 Compose Resources 访问器
-        run: gradle :shared:generateComposeResClass :shared:generateResourceAccessorsForCommonMain --no-daemon --no-build-cache
-
-      - name: 诊断：打印 Res.kt 中 tsieina_department 相关行
+      - name: 构建 Android APK (Release) + 诊断 Res.kt
         run: |
-          RES_KT="shared/build/generated/compose/resourceGenerator/kotlin/com/lyihub/archiveassistant/shared/generated/resources/Res.kt"
-          echo "=== Res.kt 文件状态 ==="
-          ls -lh "$RES_KT" 2>&1 || echo "Res.kt 不存在！"
-          echo ""
-          echo "=== 包含 tsieina_department 的行 ==="
-          grep -n "tsieina_department" "$RES_KT" 2>&1 || echo "未找到 tsieina_department 相关条目"
-
-      - name: 构建 Android APK (Release)
-        run: gradle :androidApp:assembleRelease --no-daemon --no-build-cache
+          gradle :shared:generateComposeResClass :shared:generateResourceAccessorsForCommonMain :androidApp:assembleRelease --no-daemon --no-build-cache
+          echo "=== 搜索所有 Res.kt ==="
+          find shared/build -name "Res.kt" -type f 2>/dev/null
+          echo "=== Res.kt 内容（tsieina_department 行）==="
+          find shared/build -name "Res.kt" -type f -exec grep -n "tsieina_department" {} + 2>/dev/null || echo "未找到 tsieina_department 条目"
 
       - name: 查找 APK
         run: find androidApp/build/outputs -name "*.apk" -exec ls -lh {} \;
